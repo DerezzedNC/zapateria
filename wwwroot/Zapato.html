@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Zapatos - Fercho</title>
+</head>
+<body>
+  <h1>Lista de Zapatos</h1>
+  <table border="1" id="tablaZapatos">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Modelo</th>
+        <th>Color</th>
+        <th>Talla</th>
+        <th>Precio</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    fetch('/api/Zapato')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector('#tablaZapatos tbody');
+        data.forEach(z => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${z.idZapato}</td>
+              <td>${z.modelo}</td>
+              <td>${z.color}</td>
+              <td>${z.talla}</td>
+              <td>$${z.precio}</td>
+            </tr>`;
+        });
+      })
+      .catch(err => console.error('Error:', err));
+  </script>
+</body>
+</html>

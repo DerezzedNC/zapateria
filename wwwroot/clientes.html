@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clientes - Fercho</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <h1>Lista de Clientes</h1>
+  <table border="1" id="tablaClientes">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Teléfono</th>
+        <th>Servicio</th>
+        <th>Tipo de Zapato</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    fetch('/api/Cliente') // ← No pongas el dominio si está en el mismo servidor
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector('#tablaClientes tbody');
+        data.forEach(c => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${c.idCliente}</td>
+              <td>${c.nombre}</td>
+              <td>${c.apellido}</td>
+              <td>${c.telefono}</td>
+              <td>${c.tipoServicio}</td>
+              <td>${c.tipoZapato}</td>
+            </tr>
+          `;
+        });
+      })
+      .catch(err => console.error('Error cargando datos:', err));
+  </script>
+</body>
+</html>
