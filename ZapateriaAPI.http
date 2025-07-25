@@ -1,0 +1,6 @@
+@ZapateriaAPI_HostAddress = http://localhost:5005
+
+GET {{ZapateriaAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
