@@ -1,21 +1,22 @@
-# Etapa de compilación
+# Usa una imagen oficial de .NET para compilar y publicar la aplicación
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-COPY *.sln .
-COPY ZapateriaAPI/*.csproj ./ZapateriaAPI/
+# Copia archivos del proyecto y restaura dependencias
+COPY *.csproj .
 RUN dotnet restore
 
-COPY ZapateriaAPI/. ./ZapateriaAPI/
-WORKDIR /app/ZapateriaAPI
+# Copia el resto del código y compílalo
+COPY . .
 RUN dotnet publish -c Release -o out
 
-# Etapa final
+# Usa una imagen de runtime ligera para producción
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=build /app/ZapateriaAPI/out ./
+COPY --from=build /app/out .
 
-ENV ASPNETCORE_URLS=http://+:80
+# Expone el puerto de la aplicación (asegúrate que coincida con el de tu app)
 EXPOSE 80
 
+# Ejecuta la app
 ENTRYPOINT ["dotnet", "ZapateriaAPI.dll"]
