@@ -2,69 +2,89 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proyecto Escolar - Reparadora de Calzado Fercho</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Investigación de Campo - Zapatería "Fercho"</title>
+  <link rel="stylesheet" href="styles.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
       margin: 0;
-      padding: 0;
+      padding-bottom: 80px; /* Espacio para el footer */
+      background-color: #f5f5f5;
     }
+
     header {
-      background-color: #00693e; /* Verde UTM */
+      background-color: #00703c;
       color: white;
-      padding: 1rem;
+      padding: 20px;
       text-align: center;
     }
+
     nav {
-      background-color: #003865; /* Azul secundario */
+      background-color: #003865;
       display: flex;
       justify-content: center;
-      gap: 2rem;
-      padding: 1rem;
+      padding: 10px 0;
     }
+
     nav a {
       color: white;
       text-decoration: none;
+      margin: 0 20px;
       font-weight: bold;
     }
-    nav a:hover {
-      text-decoration: underline;
-    }
+
     section {
-      padding: 2rem;
+      padding: 40px;
     }
+
     footer {
       background-color: #003865;
       color: white;
+      padding: 10px;
       text-align: center;
-      padding: 1rem;
-      font-weight: bold;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .logo-container img {
+      max-width: 200px;
     }
   </style>
 </head>
 <body>
+
   <header>
     <h1>Investigación de Campo - Zapatería “Fercho”</h1>
     <p>Universidad Tecnológica Metropolitana</p>
   </header>
 
   <nav>
-    <a href="https://youtu.be/agoHr9aopCo?si=KWoYOspfmvis5XTg" target="_blank">📽️ Entrevista</a>
-    <a href="documentacion.html">📄 Documentación</a>
+    <a href="entrevista.html">📄 Entrevista</a>
+    <a href="documentacion.html">📘 Documentación</a>
     <a href="evidencias.html">🖼️ Evidencias</a>
   </nav>
 
   <section>
     <h2>Introducción</h2>
     <p>
-      Este sitio presenta las evidencias del trabajo de campo realizado en la reparadora de calzado “Fercho”, incluyendo entrevista, documentación 
+      Este sitio presenta las evidencias del trabajo de campo realizado en la reparadora de calzado “Fercho”, incluyendo entrevista, documentación
     </p>
   </section>
 
+  <div class="logo-container">
+    <img src="img/logo UTM.png" alt="Logo de la UTM">
+  </div>
+
   <footer>
-    <p>Autores: Angel y Mauricio • Fecha: Julio 2025 • UTM</p>
+    <strong>Autores: Angel y Mauricio • Fecha: Julio 2025 • UTM</strong>
   </footer>
+
 </body>
 </html>
