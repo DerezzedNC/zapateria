@@ -14,13 +14,15 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Swagger habilitado SIEMPRE (no solo en desarrollo)
+// Swagger habilitado siempre
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// IMPORTANTE: No uses redirección HTTPS en Render
-// app.UseHttpsRedirection();
+// === NUEVO: Habilitar archivos estáticos desde /wwwroot ===
+app.UseDefaultFiles(); // Busca automáticamente index.html
+app.UseStaticFiles();  // Sirve HTML, CSS, JS, imágenes
 
+// Sin HTTPS redirection (Render usa HTTP)
 app.UseAuthorization();
 app.MapControllers();
 
