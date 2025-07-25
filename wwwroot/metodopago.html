@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Métodos de Pago - Fercho</title>
+</head>
+<body>
+  <h1>Métodos de Pago</h1>
+  <table border="1" id="tablaMetodoPago">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tipo de Pago</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    fetch('/api/MetodoPago')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector('#tablaMetodoPago tbody');
+        data.forEach(p => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${p.idMetodoPago}</td>
+              <td>${p.tipoPago}</td>
+            </tr>`;
+        });
+      })
+      .catch(err => console.error('Error:', err));
+  </script>
+</body>
+</html>
