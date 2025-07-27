@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cobros - Zapatería Fercho</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 30px;
+    }
+
+    h1, h2 {
+      color: #00703c;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: #00703c;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: white;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+
+    input, select, button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #00703c;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005f2c;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background: #00703c;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html">← Volver al menú principal</a>
+  <h1>💰 Registro de Cobros Estimados</h1>
+
+  <form onsubmit="registrarCobro(event)">
+    <input type="text" id="tiempoEstimado" placeholder="Tiempo estimado (ej. 2 días)" required>
+
+    <input type="text" id="materialZapato" placeholder="Material principal usado" required>
+
+    <select id="tipoZapato" required>
+      <option value="">Tipo de Zapato</option>
+      <option>Chancletas</option>
+      <option>Tenis</option>
+      <option>Botas</option>
+      <option>Tacones</option>
+    </select>
+
+    <select id="tipoTrabajo" required>
+      <option value="">Tipo de Trabajo</option>
+      <option>Reparación Total</option>
+      <option>Cambio de Suela</option>
+      <option>Cambio de Color</option>
+    </select>
+
+    <button type="submit">Registrar Cobro</button>
+  </form>
+
+  <h2>📄 Lista de Cobros Registrados</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tiempo estimado</th>
+        <th>Material</th>
+        <th>Zapato</th>
+        <th>Trabajo</th>
+      </tr>
+    </thead>
+    <tbody id="tablaCobros"></tbody>
+  </table>
+
+  <script>
+    const cobros = [];
+
+    function registrarCobro(e) {
+      e.preventDefault();
+
+      const tiempoEstimado = document.getElementById('tiempoEstimado').value.trim();
+      const materialZapato = document.getElementById('materialZapato').value.trim();
+      const tipoZapato = document.getElementById('tipoZapato').value;
+      const tipoTrabajo = document.getElementById('tipoTrabajo').value;
+
+      if (tiempoEstimado && materialZapato && tipoZapato && tipoTrabajo) {
+        cobros.push({ tiempoEstimado, materialZapato, tipoZapato, tipoTrabajo });
+        renderCobros();
+        e.target.reset();
+      }
+    }
+
+    function renderCobros() {
+      const tabla = document.getElementById('tablaCobros');
+      tabla.innerHTML = '';
+      cobros.forEach(c => {
+        tabla.innerHTML += `
+          <tr>
+            <td>${c.tiempoEstimado}</td>
+            <td>${c.materialZapato}</td>
+            <td>${c.tipoZapato}</td>
+            <td>${c.tipoTrabajo}</td>
+          </tr>
+        `;
+      });
+    }
+  </script>
+
+</body>
+</html>

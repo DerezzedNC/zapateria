@@ -2,90 +2,58 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Investigación de Campo - Reparadora de calzado "Fercho"</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Zapatería Fercho - Inventario</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding-bottom: 80px; /* Espacio para el footer */
-      background-color: #f5f5f5;
+      background-color: #f0f0f0;
+      padding: 50px;
+      text-align: center;
     }
 
-    header {
+    h1 {
+      color: #003865;
+      margin-bottom: 40px;
+    }
+
+    .boton {
+      display: block;
+      margin: 15px auto;
+      padding: 15px 30px;
+      font-size: 18px;
       background-color: #00703c;
       color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    nav {
-      background-color: #003865;
-      display: flex;
-      justify-content: center;
-      padding: 10px 0;
-    }
-
-    nav a {
-      color: white;
+      border: none;
+      border-radius: 8px;
       text-decoration: none;
-      margin: 0 20px;
-      font-weight: bold;
+      width: 280px;
+      transition: background-color 0.3s;
     }
 
-    section {
-      padding: 40px;
+    .boton:hover {
+      background-color: #005b2e;
     }
 
-    .logo-container {
-      text-align: center;
-      margin-top: 40px;
-    }
-
-    .logo-container img {
-      width: 450px;
-      max-width: 100%;
-    }
-
-    footer {
-      background-color: #003865;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
+    .footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #777;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Investigación de Campo - Reparadora de calzado“Fercho”</h1>
-    <p>Universidad Tecnológica Metropolitana</p>
-  </header>
+  <h1>🛠️ Sistema de Inventario - Zapatería Fercho</h1>
 
-  <nav>
-    <a href="entrevista.html">📄 Entrevista</a>
-    <a href="documentacion.html">📘 Documentación</a>
-    <a href="evidencias.html">🖼️ Evidencias</a>
-  </nav>
+  <a href="clientes.html" class="boton">👤 Gestión de Clientes</a>
+  <a href="pedidos.html" class="boton">📦 Gestión de Pedidos</a>
+  <a href="materiales.html" class="boton">🧱 Materiales Usados</a>
+  <a href="cobros.html" class="boton">💰 Registro de Cobros</a>
+  <a href="sucursales.html" class="boton">🏪 Sucursales y Horarios</a>
 
-  <section>
-    <h2>Introducción</h2>
-    <p>
-      Este sitio presenta las evidencias del trabajo de campo realizado en la reparadora de calzado “Fercho”, incluyendo entrevista, documentación
-    </p>
-  </section>
-
-  <div class="logo-container">
-    <img src="img/logo UTM.png" alt="Logo de la UTM">
+  <div class="footer">
+    Proyecto académico – Zapatería Fercho © 2025
   </div>
-
-  <footer>
-    <strong>Autores: Angel Noh y Mauricio Chale • Fecha: Julio 2025 • UTM</strong>
-  </footer>
 
 </body>
 </html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Materiales - Zapatería Fercho</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 30px;
+    }
+
+    h1, h2 {
+      color: #00703c;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: #00703c;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: white;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+
+    input, select, button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #00703c;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005f2c;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background: #00703c;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html">← Volver al menú principal</a>
+  <h1>🧱 Registro de Materiales por Pedido</h1>
+
+  <form onsubmit="agregarMaterial(event)">
+    <input type="text" id="pedidoId" placeholder="ID del Pedido (simulado)" required>
+
+    <select id="material" required>
+      <option value="">Material usado</option>
+      <option>Pinturas</option>
+      <option>Cuero</option>
+      <option>Hilos</option>
+      <option>Suelas</option>
+      <option>Cristal Pegamento</option>
+      <option>8020</option>
+      <option>Bolicheo</option>
+    </select>
+
+    <input type="number" id="cantidad" placeholder="Cantidad usada" min="1" required>
+
+    <button type="submit">Agregar Material</button>
+  </form>
+
+  <h2>📦 Materiales por Pedido</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID Pedido</th>
+        <th>Material</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+    <tbody id="tablaMateriales"></tbody>
+  </table>
+
+  <script>
+    const materialesPedido = [];
+
+    function agregarMaterial(e) {
+      e.preventDefault();
+
+      const pedidoId = document.getElementById('pedidoId').value.trim();
+      const material = document.getElementById('material').value;
+      const cantidad = parseInt(document.getElementById('cantidad').value);
+
+      if (pedidoId && material && cantidad > 0) {
+        materialesPedido.push({ pedidoId, material, cantidad });
+        renderMateriales();
+        e.target.reset();
+      }
+    }
+
+    function renderMateriales() {
+      const tabla = document.getElementById('tablaMateriales');
+      tabla.innerHTML = '';
+      materialesPedido.forEach(m => {
+        tabla.innerHTML += `
+          <tr>
+            <td>${m.pedidoId}</td>
+            <td>${m.material}</td>
+            <td>${m.cantidad}</td>
+          </tr>
+        `;
+      });
+    }
+  </script>
+
+</body>
+</html>

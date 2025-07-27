@@ -1,45 +1,138 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Clientes - Fercho</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta charset="UTF-8">
+  <title>Clientes - Zapatería Fercho</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f7f7f7; padding: 30px; }
+    h1, h2 { color: #00703c; text-align: center; }
+    a { text-decoration: none; color: #00703c; display: inline-block; margin-bottom: 20px; }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+
+    input, select, button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #00703c;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005f2c;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 30px;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background: #00703c;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-  <h1>Lista de Clientes</h1>
-  <table border="1" id="tablaClientes">
+
+  <a href="index.html">← Volver al menú principal</a>
+  <h1>👤 Registro de Clientes</h1>
+
+  <form onsubmit="agregarCliente(event)">
+    <input type="text" id="nombre" placeholder="Nombre" required>
+    <input type="text" id="apellido" placeholder="Apellido" required>
+    <input type="text" id="telefono" placeholder="Teléfono" required>
+
+    <select id="tipoServicio" required>
+      <option value="">Tipo de Servicio</option>
+      <option>Reparación Total</option>
+      <option>Cambio de Suela</option>
+      <option>Cambio de Color</option>
+    </select>
+
+    <select id="tipoZapato" required>
+      <option value="">Tipo de Zapato</option>
+      <option>Chancletas</option>
+      <option>Tenis</option>
+      <option>Botas</option>
+      <option>Tacones</option>
+    </select>
+
+    <button type="submit">Agregar Cliente</button>
+  </form>
+
+  <h2>📁 Lista de Clientes Registrados</h2>
+  <table>
     <thead>
       <tr>
-        <th>ID</th>
         <th>Nombre</th>
         <th>Apellido</th>
         <th>Teléfono</th>
         <th>Servicio</th>
-        <th>Tipo de Zapato</th>
+        <th>Zapato</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody id="tablaClientes"></tbody>
   </table>
 
   <script>
-    fetch('/api/Cliente') // ← No pongas el dominio si está en el mismo servidor
-      .then(res => res.json())
-      .then(data => {
-        const tbody = document.querySelector('#tablaClientes tbody');
-        data.forEach(c => {
-          tbody.innerHTML += `
-            <tr>
-              <td>${c.idCliente}</td>
-              <td>${c.nombre}</td>
-              <td>${c.apellido}</td>
-              <td>${c.telefono}</td>
-              <td>${c.tipoServicio}</td>
-              <td>${c.tipoZapato}</td>
-            </tr>
-          `;
-        });
-      })
-      .catch(err => console.error('Error cargando datos:', err));
+    const clientes = [];
+
+    function agregarCliente(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const apellido = document.getElementById('apellido').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const tipoServicio = document.getElementById('tipoServicio').value;
+      const tipoZapato = document.getElementById('tipoZapato').value;
+
+      if (nombre && apellido && telefono && tipoServicio && tipoZapato) {
+        clientes.push({ nombre, apellido, telefono, tipoServicio, tipoZapato });
+        renderClientes();
+        e.target.reset();
+      }
+    }
+
+    function renderClientes() {
+      const tabla = document.getElementById('tablaClientes');
+      tabla.innerHTML = "";
+      clientes.forEach(c => {
+        tabla.innerHTML += `
+          <tr>
+            <td>${c.nombre}</td>
+            <td>${c.apellido}</td>
+            <td>${c.telefono}</td>
+            <td>${c.tipoServicio}</td>
+            <td>${c.tipoZapato}</td>
+          </tr>
+        `;
+      });
+    }
   </script>
+
 </body>
 </html>
