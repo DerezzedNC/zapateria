@@ -1,41 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Zapatería Fercho - Inventario</title>
+  <meta charset="UTF-8">
+  <title>Inicio - Reparadora Fercho</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      padding: 50px;
-      text-align: center;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding: 40px 20px;
     }
 
     h1 {
       color: #003865;
-      margin-bottom: 40px;
+      text-align: center;
+      margin-bottom: 30px;
     }
 
-    .boton {
-      display: block;
-      margin: 15px auto;
-      padding: 15px 30px;
-      font-size: 18px;
+    .botones {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .botones a {
       background-color: #00703c;
       color: white;
-      border: none;
+      padding: 15px;
+      text-align: center;
       border-radius: 8px;
       text-decoration: none;
-      width: 280px;
+      font-size: 18px;
+      font-weight: bold;
       transition: background-color 0.3s;
     }
 
-    .boton:hover {
-      background-color: #005b2e;
+    .botones a:hover {
+      background-color: #005f2c;
     }
 
-    .footer {
-      margin-top: 50px;
+    footer {
+      text-align: center;
+      padding: 15px;
       font-size: 14px;
       color: #777;
     }
@@ -43,17 +63,21 @@
 </head>
 <body>
 
-  <h1>🛠️ Sistema de Inventario - Zapatería Fercho</h1>
+  <div class="container">
+    <h1>🔧 Reparadora de Calzado Fercho</h1>
 
-  <a href="clientes.html" class="boton">👤 Gestión de Clientes</a>
-  <a href="pedidos.html" class="boton">📦 Gestión de Pedidos</a>
-  <a href="materiales.html" class="boton">🧱 Materiales Usados</a>
-  <a href="cobros.html" class="boton">💰 Registro de Cobros</a>
-  <a href="sucursales.html" class="boton">🏪 Sucursales y Horarios</a>
-
-  <div class="footer">
-    Proyecto académico – Zapatería Fercho © 2025
+    <div class="botones">
+      <a href="clientes.html">🧍 Gestión de Clientes</a>
+      <a href="pedidos.html">📦 Gestión de Pedidos</a>
+      <a href="materiales.html">🧱 Materiales Usados</a>
+      <a href="cobros.html">💰 Registro de Cobros</a>
+      <a href="sucursales.html">🏬 Sucursales y Horarios</a>
+    </div>
   </div>
+
+  <footer>
+    Proyecto académico – Reparadora Fercho © 2025
+  </footer>
 
 </body>
 </html>
