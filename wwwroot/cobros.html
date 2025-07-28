@@ -78,7 +78,6 @@
 
   <form onsubmit="registrarCobro(event)">
     <input type="text" id="tiempoEstimado" placeholder="Tiempo estimado (ej. 2 días)" required>
-
     <input type="text" id="materialZapato" placeholder="Material principal usado" required>
 
     <select id="tipoZapato" required>
@@ -113,37 +112,61 @@
   </table>
 
   <script>
-    const cobros = [];
+    const API_URL = 'https://zapateria-4fpf.onrender.com/api/CobroZapato';
 
-    function registrarCobro(e) {
+    async function registrarCobro(e) {
       e.preventDefault();
 
-      const tiempoEstimado = document.getElementById('tiempoEstimado').value.trim();
-      const materialZapato = document.getElementById('materialZapato').value.trim();
-      const tipoZapato = document.getElementById('tipoZapato').value;
-      const tipoTrabajo = document.getElementById('tipoTrabajo').value;
+      const data = {
+        tiempoEstimado: document.getElementById('tiempoEstimado').value.trim(),
+        materialZapato: document.getElementById('materialZapato').value.trim(),
+        tipoZapato: document.getElementById('tipoZapato').value,
+        tipoTrabajo: document.getElementById('tipoTrabajo').value
+      };
 
-      if (tiempoEstimado && materialZapato && tipoZapato && tipoTrabajo) {
-        cobros.push({ tiempoEstimado, materialZapato, tipoZapato, tipoTrabajo });
-        renderCobros();
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (!res.ok) throw new Error('Error al registrar');
+
+        alert('✅ Cobro registrado exitosamente');
         e.target.reset();
+        cargarCobros();
+      } catch (err) {
+        alert('❌ Error al registrar el cobro');
+        console.error(err);
       }
     }
 
-    function renderCobros() {
-      const tabla = document.getElementById('tablaCobros');
-      tabla.innerHTML = '';
-      cobros.forEach(c => {
-        tabla.innerHTML += `
-          <tr>
-            <td>${c.tiempoEstimado}</td>
-            <td>${c.materialZapato}</td>
-            <td>${c.tipoZapato}</td>
-            <td>${c.tipoTrabajo}</td>
-          </tr>
-        `;
-      });
+    async function cargarCobros() {
+      try {
+        const res = await fetch(API_URL);
+        const datos = await res.json();
+
+        const tabla = document.getElementById('tablaCobros');
+        tabla.innerHTML = '';
+
+        datos.forEach(c => {
+          tabla.innerHTML += `
+            <tr>
+              <td>${c.tiempoEstimado}</td>
+              <td>${c.materialZapato}</td>
+              <td>${c.tipoZapato}</td>
+              <td>${c.tipoTrabajo}</td>
+            </tr>
+          `;
+        });
+      } catch (err) {
+        console.error('Error al cargar cobros:', err);
+      }
     }
+
+    // Cargar al iniciar
+    window.onload = cargarCobros;
   </script>
 
 </body>
