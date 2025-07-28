@@ -100,37 +100,68 @@
   </table>
 
   <script>
-    const clientes = [];
+    const apiUrl = 'https://zapateria-4fpf.onrender.com/api/Cliente';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarClientes();
+    });
 
     function agregarCliente(e) {
       e.preventDefault();
-      const nombre = document.getElementById('nombre').value.trim();
-      const apellido = document.getElementById('apellido').value.trim();
-      const telefono = document.getElementById('telefono').value.trim();
-      const tipoServicio = document.getElementById('tipoServicio').value;
-      const tipoZapato = document.getElementById('tipoZapato').value;
 
-      if (nombre && apellido && telefono && tipoServicio && tipoZapato) {
-        clientes.push({ nombre, apellido, telefono, tipoServicio, tipoZapato });
-        renderClientes();
+      const cliente = {
+        nombre: document.getElementById('nombre').value.trim(),
+        apellido: document.getElementById('apellido').value.trim(),
+        telefono: document.getElementById('telefono').value.trim(),
+        tipoServicio: document.getElementById('tipoServicio').value,
+        tipoZapato: document.getElementById('tipoZapato').value
+      };
+
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cliente)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('No se pudo registrar el cliente');
+        return res.json();
+      })
+      .then(data => {
+        alert('Cliente registrado exitosamente');
         e.target.reset();
-      }
+        cargarClientes(); // Refrescar la tabla
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Error al registrar cliente');
+      });
     }
 
-    function renderClientes() {
-      const tabla = document.getElementById('tablaClientes');
-      tabla.innerHTML = "";
-      clientes.forEach(c => {
-        tabla.innerHTML += `
-          <tr>
-            <td>${c.nombre}</td>
-            <td>${c.apellido}</td>
-            <td>${c.telefono}</td>
-            <td>${c.tipoServicio}</td>
-            <td>${c.tipoZapato}</td>
-          </tr>
-        `;
-      });
+    function cargarClientes() {
+      fetch(apiUrl)
+        .then(res => {
+          if (!res.ok) throw new Error('Error al obtener clientes');
+          return res.json();
+        })
+        .then(clientes => {
+          const tabla = document.getElementById('tablaClientes');
+          tabla.innerHTML = '';
+          clientes.forEach(c => {
+            tabla.innerHTML += `
+              <tr>
+                <td>${c.nombre}</td>
+                <td>${c.apellido}</td>
+                <td>${c.telefono}</td>
+                <td>${c.tipoServicio}</td>
+                <td>${c.tipoZapato}</td>
+              </tr>
+            `;
+          });
+        })
+        .catch(error => {
+          console.error(error);
+          alert('No se pudieron cargar los clientes');
+        });
     }
   </script>
 
