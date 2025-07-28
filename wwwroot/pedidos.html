@@ -76,7 +76,7 @@
   <a href="index.html">← Volver al menú principal</a>
   <h1>📦 Registro de Pedidos</h1>
 
-  <form onsubmit="agregarPedido(event)">
+  <form id="formPedido" onsubmit="agregarPedido(event)">
     <input type="number" id="costo" placeholder="Costo del calzado ($)" min="0" step="0.01" required>
 
     <select id="tipoCalzado" required>
@@ -96,15 +96,15 @@
 
     <select id="metodoPago" required>
       <option value="">Método de Pago</option>
-      <option>Tarjeta</option>
-      <option>Transferencia</option>
-      <option>Efectivo</option>
+      <option value="1">Tarjeta</option>
+      <option value="2">Transferencia</option>
+      <option value="3">Efectivo</option>
     </select>
 
     <select id="sucursal" required>
       <option value="">Sucursal</option>
-      <option>Sucursal 1</option>
-      <option>Sucursal 2</option>
+      <option value="1">Sucursal 1</option>
+      <option value="2">Sucursal 2</option>
     </select>
 
     <input type="date" id="fechaPedido" required>
@@ -128,39 +128,68 @@
   </table>
 
   <script>
-    const pedidos = [];
+    const apiPedidos = 'https://zapateria-4fpf.onrender.com/api/Pedido';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarPedidos();
+    });
+
+    function cargarPedidos() {
+      fetch(apiPedidos)
+        .then(res => res.json())
+        .then(pedidos => {
+          const tabla = document.getElementById('tablaPedidos');
+          tabla.innerHTML = '';
+          pedidos.forEach(p => {
+            const fecha = new Date(p.fechaPedido).toLocaleDateString();
+            tabla.innerHTML += `
+              <tr>
+                <td>${fecha}</td>
+                <td>${p.tipoCalzado}</td>
+                <td>${p.tipoServicio}</td>
+                <td>${p.idMetodoPago}</td>
+                <td>${p.idSucursal}</td>
+                <td>$${p.costoCalzado.toFixed(2)}</td>
+              </tr>
+            `;
+          });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('No se pudieron cargar los pedidos.');
+        });
+    }
 
     function agregarPedido(e) {
       e.preventDefault();
 
-      const costo = parseFloat(document.getElementById('costo').value);
-      const tipoCalzado = document.getElementById('tipoCalzado').value;
-      const tipoServicio = document.getElementById('tipoServicio').value;
-      const metodoPago = document.getElementById('metodoPago').value;
-      const sucursal = document.getElementById('sucursal').value;
-      const fechaPedido = document.getElementById('fechaPedido').value;
+      const pedido = {
+        costoCalzado: parseFloat(document.getElementById('costo').value),
+        tipoCalzado: document.getElementById('tipoCalzado').value,
+        tipoServicio: document.getElementById('tipoServicio').value,
+        idMetodoPago: parseInt(document.getElementById('metodoPago').value),
+        idSucursal: parseInt(document.getElementById('sucursal').value),
+        idCliente: 1, // Puedes cambiar esto a un select si deseas elegir cliente
+        fechaPedido: document.getElementById('fechaPedido').value
+      };
 
-      if (!isNaN(costo) && tipoCalzado && tipoServicio && metodoPago && sucursal && fechaPedido) {
-        pedidos.push({ costo, tipoCalzado, tipoServicio, metodoPago, sucursal, fechaPedido });
-        renderPedidos();
+      fetch(apiPedidos, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pedido)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Error al registrar el pedido');
+        return res.json();
+      })
+      .then(() => {
+        alert('Pedido registrado correctamente');
         e.target.reset();
-      }
-    }
-
-    function renderPedidos() {
-      const tabla = document.getElementById('tablaPedidos');
-      tabla.innerHTML = "";
-      pedidos.forEach(p => {
-        tabla.innerHTML += `
-          <tr>
-            <td>${p.fechaPedido}</td>
-            <td>${p.tipoCalzado}</td>
-            <td>${p.tipoServicio}</td>
-            <td>${p.metodoPago}</td>
-            <td>${p.sucursal}</td>
-            <td>$${p.costo.toFixed(2)}</td>
-          </tr>
-        `;
+        cargarPedidos();
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Error al registrar pedido');
       });
     }
   </script>

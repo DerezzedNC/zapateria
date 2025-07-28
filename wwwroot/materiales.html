@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Materiales - Zapatería Fercho</title>
+  <title>Materiales por Pedido - Zapatería Fercho</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -76,21 +76,18 @@
   <a href="index.html">← Volver al menú principal</a>
   <h1>🧱 Registro de Materiales por Pedido</h1>
 
-  <form onsubmit="agregarMaterial(event)">
-    <input type="text" id="pedidoId" placeholder="ID del Pedido (simulado)" required>
+  <form id="formMaterial" onsubmit="registrarMaterial(event)">
+    <input type="number" id="idPedido" placeholder="ID del Pedido" required>
 
-    <select id="material" required>
-      <option value="">Material usado</option>
-      <option>Pinturas</option>
-      <option>Cuero</option>
-      <option>Hilos</option>
-      <option>Suelas</option>
-      <option>Cristal Pegamento</option>
-      <option>8020</option>
-      <option>Bolicheo</option>
+    <select id="idMaterial" required>
+      <option value="">Seleccione Material</option>
+      <option value="1">Pegamento industrial</option>
+      <option value="2">Pintura negra</option>
+      <option value="3">Suela de caucho</option>
+      <!-- Puedes ampliar esta lista o hacerla dinámica con una consulta GET a /api/Material -->
     </select>
 
-    <input type="number" id="cantidad" placeholder="Cantidad usada" min="1" required>
+    <input type="number" id="cantidad" placeholder="Cantidad usada" min="1" step="1" required>
 
     <button type="submit">Agregar Material</button>
   </form>
@@ -100,6 +97,9 @@
     <thead>
       <tr>
         <th>ID Pedido</th>
+        <th>Fecha</th>
+        <th>Servicio</th>
+        <th>Calzado</th>
         <th>Material</th>
         <th>Cantidad</th>
       </tr>
@@ -108,33 +108,64 @@
   </table>
 
   <script>
-    const materialesPedido = [];
+    const apiURL = 'https://zapateria-4fpf.onrender.com/api/PedidoMaterial';
 
-    function agregarMaterial(e) {
-      e.preventDefault();
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarMateriales();
+    });
 
-      const pedidoId = document.getElementById('pedidoId').value.trim();
-      const material = document.getElementById('material').value;
-      const cantidad = parseInt(document.getElementById('cantidad').value);
-
-      if (pedidoId && material && cantidad > 0) {
-        materialesPedido.push({ pedidoId, material, cantidad });
-        renderMateriales();
-        e.target.reset();
-      }
+    function cargarMateriales() {
+      fetch(apiURL)
+        .then(res => res.json())
+        .then(data => {
+          const tabla = document.getElementById('tablaMateriales');
+          tabla.innerHTML = '';
+          data.forEach(item => {
+            const fecha = new Date(item.pedido.fechaPedido).toLocaleDateString();
+            tabla.innerHTML += `
+              <tr>
+                <td>${item.pedido.idPedido}</td>
+                <td>${fecha}</td>
+                <td>${item.pedido.tipoServicio}</td>
+                <td>${item.pedido.tipoCalzado}</td>
+                <td>${item.material.nombreMaterial}</td>
+                <td>${item.cantidad}</td>
+              </tr>
+            `;
+          });
+        })
+        .catch(err => {
+          console.error(err);
+          alert('No se pudieron cargar los materiales.');
+        });
     }
 
-    function renderMateriales() {
-      const tabla = document.getElementById('tablaMateriales');
-      tabla.innerHTML = '';
-      materialesPedido.forEach(m => {
-        tabla.innerHTML += `
-          <tr>
-            <td>${m.pedidoId}</td>
-            <td>${m.material}</td>
-            <td>${m.cantidad}</td>
-          </tr>
-        `;
+    function registrarMaterial(e) {
+      e.preventDefault();
+
+      const nuevo = {
+        idPedido: parseInt(document.getElementById('idPedido').value),
+        idMaterial: parseInt(document.getElementById('idMaterial').value),
+        cantidad: parseInt(document.getElementById('cantidad').value)
+      };
+
+      fetch(apiURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(nuevo)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Error al registrar material');
+        return res.json();
+      })
+      .then(() => {
+        alert('Material registrado correctamente');
+        e.target.reset();
+        cargarMateriales();
+      })
+      .catch(err => {
+        console.error(err);
+        alert('No se pudo registrar el material.');
       });
     }
   </script>

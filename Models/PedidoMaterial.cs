@@ -11,13 +11,15 @@ namespace ZapateriaAPI.Models
 
         [Required]
         public int IdPedido { get; set; }
+
         [ForeignKey("IdPedido")]
-        public Pedido Pedido { get; set; }
+        public Pedido? Pedido { get; set; }  // Ya no tiene [Required]
 
         [Required]
         public int IdMaterial { get; set; }
+
         [ForeignKey("IdMaterial")]
-        public Material Material { get; set; }
+        public Material? Material { get; set; }  // Ya no tiene [Required]
 
         [Required]
         public int Cantidad { get; set; }
